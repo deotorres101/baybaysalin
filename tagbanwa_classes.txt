@@ -1,3 +1,43 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:048f0217ffd95a633ef8720489fc1c062760c3c1ea7ccacec2012549ef1c717a
-size 127
+a
+ba
+bi
+bu
+da
+di
+du
+ga
+gi
+gu
+i
+ka
+ki
+ku
+la
+li
+lu
+ma
+mi
+mu
+na
+nga
+ngi
+ngu
+ni
+nu
+pa
+pi
+pu
+sa
+si
+su
+ta
+ti
+tu
+u
+wa
+wi
+wu
+ya
+yi
+yu
+
