@@ -17,6 +17,7 @@ class ImageProcessing:
         img = img / 255.0
         img = tf.image.rgb_to_grayscale(img)
         if img_width > 32:
+            #img = tf.image.rgb_to_grayscale(img)
             return img[np.newaxis]
         return img
 

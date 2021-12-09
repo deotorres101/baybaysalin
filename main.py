@@ -5,8 +5,10 @@ from tts_api import TTSHandler
 from PIL import Image
 import base64
 import io
+import tensorflow as tf
 
 DETECT_PATH = 'models/detect_dialect.h5'
+#MODEL_PATH = ['models/hanunuo_model_vgg16.h5', 'models/tagalog_model_vgg16.h5', 'models/tagbanwa_model_vgg16.h5']
 MODEL_PATH = ['models/hanunuo_model.h5', 'models/tagalog_model.h5', 'models/tagbanwa_model.h5']
 CLASS_PATH = ['hanunuo_classes.txt', 'tagalog_classes.txt', 'tagbanwa_classes.txt']
 DIALECT = ['Hanunuo', 'Tagalog', 'Tagbanwa']
@@ -30,15 +32,18 @@ def main():
 
 def process_input(input_img):
     img = ImageProcessing()
-    
+
+    # Comment out below if you want to test models manually
     #Convert Image to Array
-    _c = img.separate_chars(input_img, return_img=True)
+    _c = img.separate_chars(input_img, chars=[], return_img=True)
     i = img.image_to_array(_c, 300, 40)
 
+    # Comment out below if you want to test models manually
     #Detect Dialect
     dialect_detect = Model(DETECT_PATH)
     dialect = dialect_detect.get_prediction(i)
 
+    # change dialect var to corresponding index number for MODEL_PATH and CLASS_PATH
     #OCR
     ocr = Model(MODEL_PATH[dialect])
     print(MODEL_PATH[dialect])
