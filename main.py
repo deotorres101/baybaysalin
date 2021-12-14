@@ -20,13 +20,13 @@ def main():
     if request.method == 'POST':
         f = request.files['img']
         img = Image.open(io.BytesIO(f.read()))
-        out = process_input(img)
+        out, dialect = process_input(img)
         i = io.BytesIO()
         img.save(i, "PNG")
         enc_img = base64.b64encode(i.getvalue())
         tts = TTSHandler(API_KEY)
         speech = tts.convert_to_speech(out)
-        return render_template('display.html', img=enc_img.decode('utf-8'), out=out, tts=speech)
+        return render_template('display.html', img=enc_img.decode('utf-8'), out=out, tts=speech, dialect=dialect)
     else:
         return render_template('capture.html')
 
@@ -50,7 +50,7 @@ def process_input(input_img):
     chars = img.separate_chars(input_img, chars=[])
     translation = ocr.get_prediction(chars, class_file=CLASS_PATH[dialect])
 
-    return translation
+    return translation, DIALECT[dialect]
 
 if __name__ == '__main__':
     app.run(debug=True)
