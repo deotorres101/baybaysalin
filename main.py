@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+#from flask_ngrok import run_with_ngrok
 from model_processing import Model
 from image_processing import ImageProcessing
 from tts_api import TTSHandler
@@ -14,6 +15,7 @@ CLASS_PATH = ['hanunuo_classes.txt', 'tagalog_classes.txt', 'tagbanwa_classes.tx
 DIALECT = ['Hanunuo', 'Tagalog', 'Tagbanwa']
 API_KEY = '14f3d8372a47419ca51681c347744614'
 app = Flask(__name__)
+#run_with_ngrok(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def main():
@@ -35,22 +37,27 @@ def process_input(input_img):
 
     # Comment out below if you want to test models manually
     #Convert Image to Array
-    _c = img.separate_chars(input_img, chars=[], return_img=True)
-    i = img.image_to_array(_c, 300, 40)
+    bounding_boxes = img.get_rect(input_img)
+    char = img.separate_chars(input_img, bounding_boxes, True)
 
     # Comment out below if you want to test models manually
     #Detect Dialect
-    dialect_detect = Model(DETECT_PATH)
-    dialect = dialect_detect.get_prediction(i)
+    #dialect_detect = Model(DETECT_PATH)
+
+    #detect dialect using the first character
+    #dialect = dialect_detect.get_prediction(char[0])
+    dialect = 1
 
     # change dialect var to corresponding index number for MODEL_PATH and CLASS_PATH
     #OCR
     ocr = Model(MODEL_PATH[dialect])
     print(MODEL_PATH[dialect])
-    chars = img.separate_chars(input_img, chars=[])
+
+    chars = img.separate_chars(input_img, bounding_boxes)
     translation = ocr.get_prediction(chars, class_file=CLASS_PATH[dialect])
 
     return translation, DIALECT[dialect]
 
 if __name__ == '__main__':
     app.run(debug=True)
+    #app.run()       # tried with debug=true but not working with ngrok
