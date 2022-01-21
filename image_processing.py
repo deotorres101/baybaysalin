@@ -1,5 +1,4 @@
 import numpy as np
-from PIL import Image
 import tensorflow as tf
 import imutils
 import cv2
@@ -43,6 +42,7 @@ class ImageProcessing:
         pil2cv2 = input_img.convert('RGB')
         pil = np.array(pil2cv2)
         src = pil[:, :, ::-1].copy()
+
         gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
         blurred = cv2.GaussianBlur(gray, (5, 5), 0)
         edged = cv2.Canny(blurred, 30, 150)
@@ -55,8 +55,9 @@ class ImageProcessing:
         # adjust threshold sensitivity, larger values than 0.5 mean less sensitivity
         tConst = 0.5
 
-        # adjust overlap sensitivity. The larger the value, the less sensitive
-        overlap_threshold = 8
+        # adjust width threshold by pixel.
+        w_threshold = 8
+
         for i, c in enumerate(cnts):
             (x, y, w, h) = cv2.boundingRect(c)
 
@@ -69,8 +70,8 @@ class ImageProcessing:
 
                 threshold = (tW * tConst) if tW >= w else (w * tConst)
 
-                #if the x-position of the centers of current and previous bounding box is within threshold,then both bbox are combined.
                 if abs(center - tCenter) < threshold:
+                    # print(f'Within threshold{threshold}')
                     if y < tY:
                         new_y = y
                         new_h = h + tH + (y - tY + tH)
@@ -85,6 +86,12 @@ class ImageProcessing:
                     continue
 
             rects.append((x, y, w, h))
+
+        for i, r in enumerate(rects):
+            # pop bounding box with less pixels than the threshold
+            if r[2] <= w_threshold:
+                # print(rects)
+                rects.pop(i)
 
         return rects
 

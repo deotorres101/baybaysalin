@@ -6,7 +6,6 @@ from tts_api import TTSHandler
 from PIL import Image
 import base64
 import io
-import tensorflow as tf
 
 DETECT_PATH = 'models/detect_dialect.h5'
 #MODEL_PATH = ['models/hanunuo_model_vgg16.h5', 'models/tagalog_model_vgg16.h5', 'models/tagbanwa_model_vgg16.h5']
@@ -38,22 +37,22 @@ def process_input(input_img):
     # Comment out below if you want to test models manually
     #Convert Image to Array
     bounding_boxes = img.get_rect(input_img)
-    char = img.separate_chars(input_img, bounding_boxes, True)
+    chars = img.separate_chars(input_img, bounding_boxes)
 
     # Comment out below if you want to test models manually
     #Detect Dialect
-    #dialect_detect = Model(DETECT_PATH)
+    dialect_detect = Model(DETECT_PATH)
 
     #detect dialect using the first character
-    #dialect = dialect_detect.get_prediction(char[0])
-    dialect = 1
+    dialect = dialect_detect.get_prediction(chars[0])
+    #dialect = 1
 
     # change dialect var to corresponding index number for MODEL_PATH and CLASS_PATH
     #OCR
     ocr = Model(MODEL_PATH[dialect])
     print(MODEL_PATH[dialect])
 
-    chars = img.separate_chars(input_img, bounding_boxes)
+
     translation = ocr.get_prediction(chars, class_file=CLASS_PATH[dialect])
 
     return translation, DIALECT[dialect]
