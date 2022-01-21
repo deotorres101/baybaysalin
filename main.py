@@ -52,8 +52,9 @@ def process_input(input_img):
     ocr = Model(MODEL_PATH[dialect])
     print(MODEL_PATH[dialect])
 
-
     translation = ocr.get_prediction(chars, class_file=CLASS_PATH[dialect])
+
+    print(len(chars))
 
     return translation, DIALECT[dialect]
 
