@@ -14,7 +14,7 @@ $(document).ready(function() {
             }
             reader.readAsDataURL(file);
             label.addClass('shown');
-            inputFile.prop('disabled', true);
+            inputFile.prop('disabled', false);
         }
     });
     

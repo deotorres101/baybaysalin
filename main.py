@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-#from flask_ngrok import run_with_ngrok
+from flask_ngrok import run_with_ngrok
 from model_processing import Model
 from image_processing import ImageProcessing
 from tts_api import TTSHandler
@@ -14,7 +14,7 @@ CLASS_PATH = ['hanunuo_classes.txt', 'tagalog_classes.txt', 'tagbanwa_classes.tx
 DIALECT = ['Hanunuo', 'Tagalog', 'Tagbanwa']
 API_KEY = '14f3d8372a47419ca51681c347744614'
 app = Flask(__name__)
-#run_with_ngrok(app)
+run_with_ngrok(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def main():
@@ -58,5 +58,5 @@ def process_input(input_img):
     return translation, DIALECT[dialect]
 
 if __name__ == '__main__':
-    app.run(debug=True)
-    #app.run()       # tried with debug=true but not working with ngrok
+    # app.run(debug=True)
+    app.run()       # tried with debug=true but not working with ngrok
