@@ -54,7 +54,8 @@ def process_input(input_img):
 
     translation = ocr.get_prediction(chars, class_file=CLASS_PATH[dialect])
 
-    print(len(chars))
+    # use for detecting the number of characters, for testing and can be seen in the terminal
+    print("number of detected characters:", len(chars))
 
     return translation, DIALECT[dialect]
 
