@@ -63,11 +63,12 @@ def process_input(input_img):
             reader = csv.reader(f, delimiter=',')
             for row in reader:
                 for field in row:
-                    matcher = SequenceMatcher(a=field, b=translation).ratio()
-                    if matcher > temp:
-                        temp = matcher
-                        tempWord = field
-                        print(temp, tempWord)
+                    if len(field) == len(translation):
+                        matcher = SequenceMatcher(a=field, b=translation).ratio()
+                        if matcher > temp:
+                            temp = matcher
+                            tempWord = field
+                            print(temp, tempWord)
         translation = tempWord
 
     # use for detecting the number of characters, for testing and can be seen in the terminal
