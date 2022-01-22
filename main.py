@@ -7,6 +7,7 @@ from PIL import Image
 from difflib import SequenceMatcher
 import base64
 import io
+import csv
 
 DETECT_PATH = 'models/detect_dialect.h5'
 #MODEL_PATH = ['models/hanunuo_model_vgg16.h5', 'models/tagalog_model_vgg16.h5', 'models/tagbanwa_model_vgg16.h5']
@@ -68,8 +69,6 @@ def process_input(input_img):
                         tempWord = field
                         print(temp, tempWord)
         translation = tempWord
-
-    return translation, DIALECT[dialect]
 
     # use for detecting the number of characters, for testing and can be seen in the terminal
     print("number of detected characters:", len(chars))
