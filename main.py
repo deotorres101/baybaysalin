@@ -4,6 +4,7 @@ from model_processing import Model
 from image_processing import ImageProcessing
 from tts_api import TTSHandler
 from PIL import Image
+from difflib import SequenceMatcher
 import base64
 import io
 
@@ -53,6 +54,22 @@ def process_input(input_img):
     print(MODEL_PATH[dialect])
 
     translation = ocr.get_prediction(chars, class_file=CLASS_PATH[dialect])
+    
+    # change machine prediction to the proper word via dictionary
+    if 'e' in translation or 'i' in translation or 'o' in translation or 'u' in translation or 'd' in translation or 'r' in translation:
+        temp = 0.0
+        with open('dictionary.csv', 'rt') as f:
+            reader = csv.reader(f, delimiter=',')
+            for row in reader:
+                for field in row:
+                    matcher = SequenceMatcher(a=field, b=translation).ratio()
+                    if matcher > temp:
+                        temp = matcher
+                        tempWord = field
+                        print(temp, tempWord)
+        translation = tempWord
+
+    return translation, DIALECT[dialect]
 
     # use for detecting the number of characters, for testing and can be seen in the terminal
     print("number of detected characters:", len(chars))
