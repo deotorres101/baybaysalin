@@ -5,6 +5,7 @@ from image_processing import ImageProcessing
 from tts_api import TTSHandler
 from PIL import Image
 from difflib import SequenceMatcher
+from itertools import product
 import base64
 import io
 import csv
@@ -58,17 +59,38 @@ def process_input(input_img):
     
     # change machine prediction to the proper word via dictionary
     if 'e' in translation or 'i' in translation or 'o' in translation or 'u' in translation or 'd' in translation or 'r' in translation:
+        # get all possible word combinations using a dictionary and the zip() and itertools product()
+        # needs further improvements to add more combinations
+
+        word_dict = {'e':['i'], 'o':['u'], 'd':['r']}
+        trans_res = []      # list for all possible combinations of translation
+        for key in word_dict.keys():
+            if key not in word_dict[key]:
+                word_dict[key].append(key)
+        
+        for sub in [zip(word_dict.keys(), chr) for chr in product(*word_dict.values())]:
+            temp = translation
+            for repls in sub:
+                temp = temp.replace(*repls)
+            if temp not in trans_res:
+                trans_res.append(temp)
+
+        # data dictionary part
+        # compares the trans_res to the data dictionary
+        # gets the ratio of each word comparison and picks the highest ratio among all of it
         temp = 0.0
         with open('dictionary.csv', 'rt') as f:
             reader = csv.reader(f, delimiter=',')
             for row in reader:
                 for field in row:
                     if len(field) == len(translation):
-                        matcher = SequenceMatcher(a=field, b=translation).ratio()
-                        if matcher > temp:
-                            temp = matcher
-                            tempWord = field
-                            print(temp, tempWord)
+                        for tr in trans_res:
+                            matcher = SequenceMatcher(a=field, b=tr).ratio()
+                            if matcher > temp:
+                                temp = matcher
+                                tempWord = field
+                                print(temp, tempWord)
+
         translation = tempWord
 
     # use for detecting the number of characters, for testing and can be seen in the terminal
