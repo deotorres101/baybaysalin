@@ -10,9 +10,10 @@ import base64
 import io
 import csv
 
-DETECT_PATH = 'models/detect_dialect.h5'
-#MODEL_PATH = ['models/hanunuo_model_vgg16.h5', 'models/tagalog_model_vgg16.h5', 'models/tagbanwa_model_vgg16.h5']
-MODEL_PATH = ['models/hanunuo_model.h5', 'models/tagalog_model.h5', 'models/tagbanwa_model.h5']
+# DETECT_PATH = 'models/detect_dialect.h5'
+DETECT_PATH = 'models/detect_dialect_vgg16.h5'
+MODEL_PATH = ['models/hanunuo_model_vgg16.h5', 'models/tagalog_model_vgg16.h5', 'models/tagbanwa_model_vgg16.h5']
+# MODEL_PATH = ['models/hanunuo_model.h5', 'models/tagalog_model.h5', 'models/tagbanwa_model.h5']
 CLASS_PATH = ['hanunuo_classes.txt', 'tagalog_classes.txt', 'tagbanwa_classes.txt']
 DIALECT = ['Hanunuo', 'Tagalog', 'Tagbanwa']
 API_KEY = '14f3d8372a47419ca51681c347744614'

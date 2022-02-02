@@ -16,7 +16,7 @@ class ImageProcessing:
         img = img.convert('RGB')
         img = np.array(img)
         img = img / 255.0
-        img = tf.image.rgb_to_grayscale(img)
+        # img = tf.image.rgb_to_grayscale(img)      # un-comment this line if using vgg models only (not vgg16)
         return img[np.newaxis]
 
     #separates characters using list of bounding boxes
