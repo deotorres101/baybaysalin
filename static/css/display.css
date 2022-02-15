@@ -1,10 +1,10 @@
 @font-face {
     font-family: 'Bogart';
-    src: url('static/font/Bogart.ttf');
+    src: url('../font/Bogart.ttf');
 }
 @font-face {
     font-family: 'Cenzo';
-    src: url('static/font/Cenzo.otf');
+    src: url('../font/Cenzo.otf');
 }
 html, body {
     width: 100%;
@@ -54,7 +54,6 @@ nav .brand img {
     image-rendering: pixelated;
 }
 nav .menu a {
-    border-radius: .50rem;
     color: #fff;
     text-decoration: none;
     font-size: 2rem;
@@ -64,6 +63,12 @@ nav .menu a {
 nav .menu a:hover {
     background: #fff;
     color: #ff3d3d;
+}
+.active{
+    border-bottom: 5px solid #FFF;
+}
+.activealt{
+    border-bottom: 5px solid #ff3d3d;
 }
 nav .menu a:last-child {
     margin-right: 0;
@@ -302,4 +307,8 @@ a.delete-button {
         box-sizing: border-box;
         width: 100%;
     }
+}
+
+.text-center {
+    text-align: center;
 }

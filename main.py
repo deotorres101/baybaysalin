@@ -21,7 +21,7 @@ app = Flask(__name__)
 run_with_ngrok(app)
 
 @app.route('/', methods=['GET', 'POST'])
-def main():
+def home():
     if request.method == 'POST':
         f = request.files['img']
         img = Image.open(io.BytesIO(f.read()))
@@ -34,6 +34,15 @@ def main():
         return render_template('display.html', img=enc_img.decode('utf-8'), out=out, tts=speech, dialect=dialect)
     else:
         return render_template('capture.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
 
 def process_input(input_img):
     img = ImageProcessing()
